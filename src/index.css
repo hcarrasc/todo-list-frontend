@@ -4,18 +4,15 @@
     box-sizing: border-box;
     text-decoration: none !important;
 }
-
 html {
     font-size: 14px;
 }
-
 body {
     font-family: 'LATO', sans-serif;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
     color: #2c3e50;
     min-height: 100vh;
 }
-
 .main-wrapper {
 	width: 90%;
     max-width: 150rem;
@@ -25,11 +22,15 @@ body {
     grid-template-areas: "inbox board";
 	gap: 2rem;
 }
+.header{
+	width: 100%;
+    height: 4.5rem;
+	padding: 1rem;
+	background: #202020;
+    color: #f1f1f1;
+}
 .inbox {
 	grid-area: inbox;
-	border: none;
-	padding: 0.5rem;
-	background-color: #46464a;
 	border-radius: 0.75rem;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
@@ -41,14 +42,12 @@ body {
 }
 .board {
 	grid-area: board;
-	border: none;
 	display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.5rem;
     padding: 0;
 }
 .column {
-	border: none;
 	display: flex;
 	flex-direction: column;
 	align-content: flex-start;
@@ -56,7 +55,18 @@ body {
 	background-color: #ecf0f3;
 	border-radius: 0.75rem;
 	padding: 1.5rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	transition: background-color 0.3s ease;
+}
+.column-trash {
+	display: flex;
+	flex-direction: column;
+	align-content: flex-start;
+	min-height: 20vh;
+	background-color: #ecf0f3;
+	border-radius: 0.75rem;
+	padding: 1.5rem;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	transition: background-color 0.3s ease;
 }
 .column h2 {

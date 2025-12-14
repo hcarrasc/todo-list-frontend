@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Column from './Column';
 import TaskCard from './TaskCard';
 import type { Task, Status } from '../types/task';
+import ColumnTrash from './ColumnTrash';
 
 const columns: { id: Status; title: string }[] = [
     { id: 'todo', title: 'To do' },
@@ -18,9 +19,7 @@ function Board() {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         if (!title.trim()) return;
-
         const newTask: Task = {
             id: crypto.randomUUID(),
             title: title,
@@ -28,19 +27,15 @@ function Board() {
             status: 'todo',
         };
         setTasks((prev) => [...prev, newTask]);
-
         setTitle('');
         setDescription('');
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
-
         if (!over) return;
-
         const taskId = active.id as string;
         const newStatus = over.id as Status;
-
         setTasks((prev) =>
             prev.map((task) => (task.id === taskId ? { ...task, status: newStatus } : task)),
         );
@@ -54,18 +49,20 @@ function Board() {
                     <form className="task-card" onSubmit={handleSubmit}>
                         <input
                             type="text"
-                            placeholder="Título"
+                            placeholder="Title"
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                         />
                         <input
                             type="text"
-                            placeholder="Descripción"
+                            placeholder="Description"
                             value={description}
                             onChange={(e) => setDescription(e.target.value)}
                         />
-                        <button type="submit">Agregar</button>
+                        <button type="submit">Add</button>
                     </form>
+                    <h2>TRASH</h2>
+                    <ColumnTrash key="trash" id="trash"></ColumnTrash>
                 </div>
             </section>
             <section className="board">
