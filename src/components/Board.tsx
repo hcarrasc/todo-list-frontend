@@ -1,9 +1,10 @@
 import { DndContext, type DragEndEvent } from '@dnd-kit/core';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Column from './Column';
 import TaskCard from './TaskCard';
 import type { Task, Status } from '../types/task';
 import ColumnTrash from './ColumnTrash';
+import { getTasks, createTask } from '../services/taskService';
 
 const columns: { id: Status; title: string }[] = [
     { id: 'todo', title: 'To do' },
@@ -17,15 +18,36 @@ function Board() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    useEffect(() => {
+        const loadTasks = async () => {
+            try {
+                const data = await getTasks();
+                setTasks(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadTasks();
+    }, []);
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!title.trim()) return;
+
         const newTask: Task = {
             id: crypto.randomUUID(),
             title: title,
             description: description,
             status: 'todo',
         };
+
+        await createTask({
+            title,
+            description,
+            status: newTask.status,
+        });
+
         setTasks((prev) => [...prev, newTask]);
         setTitle('');
         setDescription('');
